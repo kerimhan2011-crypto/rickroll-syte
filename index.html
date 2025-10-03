@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Ты зарикролен!</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: black;
+      overflow: hidden;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+    }
+    video {
+      display: none;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+    .top-text, .bottom-text {
+      width: 100%;
+      text-align: center;
+      font-size: 3em;
+      color: red;
+      text-shadow: 2px 2px 10px yellow;
+      font-weight: bold;
+      animation: blink 1s infinite;
+      display: none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .top-text { top: 20px; }
+    .bottom-text { bottom: 20px; }
+    @keyframes blink {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    .emoji {
+      position: absolute;
+      font-size: 2em;
+      opacity: 0.8;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      from { transform: translateY(-100px); }
+      to { transform: translateY(110vh); }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-text" id="topText">🤣 Ты зарикролен! 🤣</div>
+  <div class="bottom-text" id="bottomText">😂🤣😂🤣😂🤣😂🤣</div>
+
+  <!-- Видео -->
+  <video id="rickvid" loop>
+    <source src="rickroll.mp4" type="video/mp4">
+    Ваш браузер не поддерживает видео.
+  </video>
+
+  <script>
+    const video = document.getElementById("rickvid");
+    const topText = document.getElementById("topText");
+    const bottomText = document.getElementById("bottomText");
+
+    document.body.addEventListener("click", () => {
+      // показываем видео
+      video.style.display = "block";
+      video.play();
+
+      // включаем текст
+      topText.style.display = "block";
+      bottomText.style.display = "block";
+
+      // запускаем смайлы-водопад
+      setInterval(() => {
+        const emoji = document.createElement("div");
+        emoji.classList.add("emoji");
+        emoji.innerText = ["😂","🤣","😎","🤡","🎉","🔥"][Math.floor(Math.random()*6)];
+        emoji.style.left = Math.random() * 100 + "vw";
+        emoji.style.animationDuration = (3 + Math.random()*3) + "s";
+        document.body.appendChild(emoji);
+        setTimeout(() => emoji.remove(), 6000);
+      }, 300);
+    }, { once: true });
+  </script>
+</body>
+</html>
